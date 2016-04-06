@@ -1,5 +1,5 @@
-import calculator
-import currency
-import images
-import shopping_search
-import standard_search
+from . import calculator
+from . import currency
+from . import images
+from . import shopping_search
+from . import standard_search

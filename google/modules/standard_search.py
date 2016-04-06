@@ -1,9 +1,9 @@
-from __future__ import unicode_literals
 
-from utils import _get_search_url, get_html
+
+from .utils import _get_search_url, get_html
 from bs4 import BeautifulSoup
-import urlparse
-from urllib2 import unquote
+import urllib.parse
+from urllib.parse import unquote
 from unidecode import unidecode
 from re import match
 
@@ -63,20 +63,20 @@ def search(query, pages=1, lang='en', void=True):
         if html:
             soup = BeautifulSoup(html, "html.parser")
             divs = soup.findAll("div", attrs={"class": "g"})
-
+            
             j = 0
-            for li in divs:
+            for div in divs:
                 res = GoogleResult()
 
                 res.page = i
                 res.index = j
 
-                res.name = _get_name(li)
-                res.link = _get_link(li)
-                res.google_link = _get_google_link(li)
-                res.description = _get_description(li)
+                res.name = _get_name(div)
+                res.link = _get_link(div)
+                res.google_link = _get_google_link(div)
+                res.description = _get_description(div)
                 res.thumb = _get_thumb()
-                res.cached = _get_cached(li)
+                res.cached = _get_cached(div)
                 if void is True:
                     if res.description is None:
                         continue
@@ -90,7 +90,7 @@ def search(query, pages=1, lang='en', void=True):
 def _get_name(li):
     """Return the name of a google search."""
     a = li.find("a")
-    # return a.text.encode("utf-8").strip()
+    #return a.text.encode("utf-8").strip()
     if a is not None:
         return a.text.strip()
     return None
@@ -121,7 +121,7 @@ def _get_google_link(li):
         return None
 
     if link.startswith("/url?") or link.startswith("/search?"):
-        return urlparse.urljoin("http://www.google.com", link)
+        return urllib.parse.urljoin("http://www.google.com", link)
 
     else:
         return None
@@ -136,7 +136,7 @@ def _get_description(li):
     if sdiv:
         stspan = sdiv.find("span", attrs={"class": "st"})
         if stspan is not None:
-            # return stspan.text.encode("utf-8").strip()
+        #return stspan.text.encode("utf-8").strip()
             return stspan.text.strip()
     else:
         return None
@@ -153,5 +153,5 @@ def _get_cached(li):
     if len(links) > 1 and links[1].text == "Cached":
         link = links[1]["href"]
         if link.startswith("/url?") or link.startswith("/search?"):
-            return urlparse.urljoin("http://www.google.com", link)
+            return urllib.parse.urljoin("http://www.google.com", link)
     return None
