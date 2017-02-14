@@ -1,8 +1,8 @@
-from __future__ import unicode_literals
+
 from unidecode import unidecode
 
-from utils import get_html_from_dynamic_site
-from utils import _get_search_url
+from .utils import get_html_from_dynamic_site
+from .utils import _get_search_url
 from bs4 import BeautifulSoup
 
 
@@ -14,15 +14,10 @@ class CalculatorResult:
         self.value = None  # Result value (eg. 157300.0)
         self.from_value = None  # Initial value (eg. 157.3)
         self.unit = None  # Result unit (eg. u'grams') (NOT implemented yet)
-        # Initial unit (eg. u'kilograms') (NOT implemented yet)
-        self.from_unit = None
-        # Initial expression (eg. u'157.3 grams') (NOT implemented yet)
-        self.expr = None
-        # Result expression  (eg. u'157300 kilograms') (NOT implemented yet)
-        self.result = None
-        # Complete expression (eg. u'157.3 kilograms = 157300 grams') (NOT
-        # implemented yet)
-        self.fullstring = None
+        self.from_unit = None  # Initial unit (eg. u'kilograms') (NOT implemented yet)
+        self.expr = None  # Initial expression (eg. u'157.3 grams') (NOT implemented yet)
+        self.result = None  # Result expression  (eg. u'157300 kilograms') (NOT implemented yet)
+        self.fullstring = None  # Complete expression (eg. u'157.3 kilograms = 157300 grams') (NOT implemented yet)
 
     def __repr__(self):
         return unidecode(self.value)
@@ -60,13 +55,11 @@ def calculate(expr):
 
 # PRIVATE
 def _get_to_value(bs):
-    input_node = bs.find("div", {"id": "_Cif"})
-    return float(input_node.find("input")["value"])
+    return float(bs.find("input", {"id": "ucw_rhs_d"})["value"])
 
 
 def _get_from_value(bs):
-    input_node = bs.find("div", {"id": "_Aif"})
-    return float(input_node.find("input")["value"])
+    return float(bs.find("input", {"id": "ucw_lhs_d"})["value"])
 
 
 def _get_to_unit(bs):

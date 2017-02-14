@@ -1,6 +1,6 @@
-from __future__ import unicode_literals
 
-from utils import get_html, normalize_query
+
+from .utils import get_html, normalize_query
 from bs4 import BeautifulSoup
 import re
 from unidecode import unidecode
@@ -33,8 +33,7 @@ def shopping(query, pages=1):
             j = 0
             soup = BeautifulSoup(html)
 
-            products = soup.findAll("div", "g")
-            print "yoooo", products
+            products = soup.findAll("li", "g")
             for prod in products:
                 res = ShoppingResult()
 

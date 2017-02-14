@@ -1,15 +1,15 @@
 language: python
 sudo: false
 python:
-- '2.7'
+- '3.4'
 matrix:
   allow_failures:
   - python: '2.6'
-  - python: '3.4'
+  - python: '2.7'
   - python: pypy
 deploy:
   provider: pypi
-  user: beni
+  user: lcd1232
   password:
     secure: XfUbc5Tnjq8mUHnv/rrQvcQ5m+k7mvk2sAwhS1Hzi2NFXaiPQF0YR2er0BDDQOFYba+MBd57l4zHdyti8Y39uVI2ZfY10c5KYio3VzXDU2doycLf7hY8cqKs8UioabVehrPU96GErVEUyA2Jj1cqrsIUX7Smj8qby0DfX+igJtM=
   on:
